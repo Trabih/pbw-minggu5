@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import AddressForm,PenggunaForm
+from .forms import AddressForm,PenggunaForm,ContentForm
 from .models import Pengguna
 from django.http import JsonResponse
 
@@ -26,7 +26,7 @@ def set_pengguna(request):
               "form": form, 
               "list_pengguna": list_pengguna
               }
-            return render('data_entry/data_entry_1.html', context)
+            return render(request, 'data_entry/data_entry_1.html', context)
     else:
         list_pengguna = Pengguna.objects.all().order_by('-id')
         context = {
@@ -63,3 +63,20 @@ def get_pengguna_detail_api(request, user_id):
   except Pengguna.DoesNotExist:
     return JsonResponse({'error' : 'user not found'}, status=404)
 
+def set_content(request):
+  form = ContentForm(None)
+  if request.method =='POST':
+    form = ContentForm(request.POST)
+    if form.is_valid():
+      form.save()
+      list_pengguna = Pengguna.objects.all().order_by('-id')
+      context = {
+        "form": form, 
+        "list_pengguna": list_pengguna
+      }
+      return render(request, 'data_entry/content.html', context)
+  else :
+    context = {
+      "form" : form,
+    }
+    return render(request, 'data_entry/content.html', context)

@@ -1,5 +1,6 @@
 from django import forms
 from .models import Pengguna
+from .models import Content
 
 STATES = (
     ('', 'Choose...'),
@@ -29,3 +30,8 @@ class PenggunaForm(forms.ModelForm):
     class Meta:
         model = Pengguna
         exclude = ['tanggal_join',]
+
+class ContentForm(forms.ModelForm):
+    class Meta :
+        model = Content
+        exclude = ["date_created"]
