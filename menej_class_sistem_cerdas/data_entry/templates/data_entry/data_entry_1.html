@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %} # pastikan sama persis
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+    {{ form.email|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+    {{ form.password|as_crispy_field }}
+    </div>
+  </div>
+  {{ form.address_1|as_crispy_field }}
+  {{ form.address_2|as_crispy_field }}
+  <div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+      {{ form.city|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-4 mb-0">
+      {{ form.state|as_crispy_field }}
+    </div>  
+    <div class="form-group col-md-2 mb-0">  
+      {{ form.zip_code|as_crispy_field }}
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
+
+<div class="alert alert-warning" role="alert">
+  Daftar Pengguna
+</div>
+<table class="table table-bordered" id="data_entry_tbl">
+  <thead>
+      <tr >
+          <th scope="col">Email</th>
+          <th scope="col">Alamat 1</th>
+          <th scope="col">Kota</th>
+          <th scope="col">Profinsi</th>
+          <th scope="col">Aksi</th>
+      </tr>
+  </thead>
+  <tbody>
+
+
+      {% for pengguna in list_pengguna %}
+      <tr class = "record">
+          <td><label >{{pengguna.email}}</label></td>
+          <td><label >{{penggguna.addriss_1}}</label></td>
+          <td><label >{{pengguna.city}}</label></td>
+          <td><label >{{pengguna.state}}</label></td>
+         
+          <td>
+               <form method="post" action="#">
+                   {% csrf_token %}
+                   <a href="{% url 'data_entry:view_pengguna' pengguna.id %}" class="btn btn-outline-success">View</a>
+                   <a href="" class="btn btn-outline-success">Edit</a>
+                   
+              </form>
+           </td>.
+
+
+      </tr>
+      {% endfor %}
+
+
+  </tbody>
+</table>
+{% endblock %}
