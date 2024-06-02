@@ -21,3 +21,5 @@ class Content (models.Model):
     date_creadted = models.DateField(auto_now= True)
     artikel = models.TextField()
     set_view = models.BooleanField(default=False)
+
+

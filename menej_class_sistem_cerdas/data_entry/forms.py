@@ -35,3 +35,6 @@ class ContentForm(forms.ModelForm):
     class Meta :
         model = Content
         exclude = ["date_created"]
+
+class SearchPengguna(forms.Form):
+    state = forms.ChoiceField(choices=STATES)

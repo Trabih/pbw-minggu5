@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import AddressForm,PenggunaForm,ContentForm
+from .forms import AddressForm,PenggunaForm,ContentForm,SearchPengguna
 from .models import Pengguna
 from django.http import JsonResponse
 
@@ -80,3 +80,32 @@ def set_content(request):
       "form" : form,
     }
     return render(request, 'data_entry/content.html', context)
+
+
+def search_pengguna(request):
+    pesan = None
+    tampil = None
+    form = None
+    listpengguna = None
+    status = None  # Define status variable
+    if request.method == "POST":
+        form = SearchPengguna(request.POST)
+        if form.is_valid():
+            state = form.cleaned_data['state']
+            listpengguna = Pengguna.objects.filter(state=state)
+            if not listpengguna:
+                pesan = "Data Pengguna tidak ditemukan"
+                status = True  # Assign a value to status
+            else:
+                tampil = True
+    else:
+        form = SearchPengguna()
+    
+    context = {
+        'form': form,
+        'tampil': tampil,
+        'pesan': pesan,
+        'listpengguna': listpengguna,
+        'status': status,  # Include status in the context
+    }
+    return render(request, 'data_entry/list_pengguna.html', context=context)
